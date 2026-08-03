@@ -1,0 +1,23 @@
+<journey name="Text Note Capture to Library">
+  <description>
+    Verify issue #4: Capture hub creates a text note, Library lists it, editor edits and saves.
+  </description>
+  <actions>
+    <action>Open the app</action>
+    <action>Tap Capture in the bottom navigation</action>
+    <action>Verify "Capture" and "Text" are visible</action>
+    <action>Tap Text</action>
+    <action>Verify "New text note", "Title (optional)", and "Body" are visible</action>
+    <action>Enter "Grocery list" in the Title (optional) field</action>
+    <action>Enter "Milk and eggs" in the Body field</action>
+    <action>Tap Save</action>
+    <action>Verify the Library screen is shown</action>
+    <action>Verify "Grocery list" is visible</action>
+    <action>Tap Grocery list</action>
+    <action>Verify "Edit note" is visible</action>
+    <action>Enter "Milk, eggs, bread" in the Body field</action>
+    <action>Tap Save</action>
+    <action>Verify "Grocery list" is visible in Library</action>
+    <action>Verify "Milk, eggs, bread" is visible</action>
+  </actions>
+</journey>
