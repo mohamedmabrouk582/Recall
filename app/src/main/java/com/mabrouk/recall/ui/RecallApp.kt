@@ -18,8 +18,10 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.mabrouk.recall.feature.ask.AskScreen
 import com.mabrouk.recall.feature.capture.CaptureScreen
+import com.mabrouk.recall.feature.capture.NoteEditorScreen
 import com.mabrouk.recall.feature.lab.LabScreen
 import com.mabrouk.recall.feature.library.LibraryScreen
+import com.mabrouk.recall.navigation.NoteEditorRoute
 import com.mabrouk.recall.navigation.TopLevelDestinations
 import com.mabrouk.recall.navigation.TopLevelRoute
 import com.mabrouk.recall.navigation.rememberNavigationState
@@ -36,13 +38,33 @@ fun RecallApp(
     val activity = LocalActivity.current
 
     val entryProvider = entryProvider<NavKey> {
-        entry<TopLevelRoute.Capture> { CaptureScreen() }
-        entry<TopLevelRoute.Library> { LibraryScreen() }
+        entry<TopLevelRoute.Capture> {
+            CaptureScreen(
+                onTextNoteClick = { navigator.navigate(NoteEditorRoute()) },
+            )
+        }
+        entry<TopLevelRoute.Library> {
+            LibraryScreen(
+                onNoteClick = { noteId -> navigator.navigate(NoteEditorRoute(noteId)) },
+            )
+        }
         entry<TopLevelRoute.Ask> { AskScreen() }
         entry<TopLevelRoute.Lab> {
             LabScreen(
                 cloudAiEnabled = cloudAiEnabled,
                 onCloudAiEnabledChange = viewModel::setCloudAiEnabled,
+            )
+        }
+        entry<NoteEditorRoute> { route ->
+            NoteEditorScreen(
+                noteId = route.noteId,
+                onSaved = {
+                    navigator.goBack()
+                    if (route.noteId == null) {
+                        navigator.navigate(TopLevelRoute.Library)
+                    }
+                },
+                onBack = { navigator.goBack() },
             )
         }
     }
