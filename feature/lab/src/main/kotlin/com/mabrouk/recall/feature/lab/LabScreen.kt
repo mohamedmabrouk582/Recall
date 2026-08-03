@@ -92,11 +92,17 @@ fun LabScreen(
                     text = statusLabel(modelStatus),
                     style = MaterialTheme.typography.bodyMedium,
                 )
-                if (modelStatus is ModelStatus.Downloading) {
-                    LinearProgressIndicator(
-                        progress = { (modelStatus as ModelStatus.Downloading).progress },
-                        modifier = Modifier.fillMaxWidth(),
-                    )
+                when (val status = modelStatus) {
+                    is ModelStatus.Downloading -> {
+                        LinearProgressIndicator(
+                            progress = { status.progress },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                    ModelStatus.Verifying -> {
+                        LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                    }
+                    else -> Unit
                 }
                 ui.message?.let { message ->
                     Text(
